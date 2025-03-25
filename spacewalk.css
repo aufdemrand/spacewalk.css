@@ -1,1 +1,1249 @@
-spa
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+/* Spacewalk CSS
+   A simple, modern CSS framework for building HUDs */
+
+
+
+
+@layer reset, layout, containers, elements, properties, slots, edge;
+
+
+:root {
+
+    /* color-scheme: light dark; /* Comment out or remove to disable dark mode */
+
+    /* Change up the fonts and colors to match your brand
+     * or theme of your application.
+     */
+
+    --default-font:   'Rubik', sans-serif;
+    --monospace-font: 'Fira Code', monospace;
+
+    /* Primary Colors */
+    --text:       light-dark(#151515, #f8f8f8);
+    --inverted:   light-dark(#f8f8f8, #151515);
+    --background: light-dark(#f8f8f8, #151515);
+    --accent:     light-dark(#007bff, #007bff);
+
+    /* UI Element Colors */
+    --header:  light-dark(#bebebe, #151515);
+    --footer:  light-dark(#bdbdbd, #252525);
+    --button:  light-dark(#d1d1d1, #404040);
+    --link:    light-dark(#007bff, #2196F3);
+
+    /* Indicator Colors */
+    --error:   light-dark(#dc3545, #dc3545);
+    --danger:  light-dark(#dc3545, #dc3545);
+    --success: light-dark(#28a745, #28a745);
+    --warning: light-dark(#ffc107, #ffc107);
+    --info:    light-dark(#ffdd51, #5a574f);
+
+
+    /* Change up these values to tweak the tones and shades
+     * of the colors used in the application.
+     */
+
+    /* Toned-down, transparent versions of the colors. */
+    --lite-tone:    hsl(from var(--text)    h s l / 0.10);
+    --medium-tone:  hsl(from var(--text)    h s l / 0.35);
+    --dark-tone:    hsl(from var(--text)    h s l / 0.50);
+    --darker-tone:  hsl(from var(--text)    h s l / 0.75);
+    --warning-tone: hsl(from var(--warning) h s l / 0.20);
+    --success-tone: hsl(from var(--success) h s l / 0.20);
+    --danger-tone:  hsl(from var(--danger)  h s l / 0.20);
+    --error-tone:   hsl(from var(--error)   h s l / 0.20);
+    --info-tone:    hsl(from var(--info)    h s l / 0.20);
+
+    /* Shaded versions of the colors. */
+    --lite-shade:    hsl(from var(--text)    h s calc(l + 85));
+    --medium-shade:  hsl(from var(--text)    h s calc(l + 75));
+    --dark-shade:    hsl(from var(--text)    h s calc(l + 65));
+    --darker-shade:  hsl(from var(--text)    h s calc(l + 50));
+    --warning-shade: hsl(from var(--warning) h s calc(l + 15));
+    --success-shade: hsl(from var(--success) h s calc(l + 15));
+    --danger-shade:  hsl(from var(--danger)  h s calc(l + 15));
+    --error-shade:   hsl(from var(--error)   h s calc(l + 15));
+    --info-shade:    hsl(from var(--info)    h s calc(l + 15));
+
+
+    /* Tweak the sizing, spacing, and padding of the your application
+     * to make it look and feel just right.
+     */
+
+    --base-size:  16px; /* The base font size for the page, should be in pixels,
+                           and is 16px by default in most browsers. This value becomes
+                           the value of '1rem' (root-em), and also effects the value
+                           of 1em. Change this up for an overall 'zoom' effect. */
+
+    /* These values stretch based on the viewport to provide
+     * a responsive design that scales with the size of the screen.
+     * Adjust these values to provide more or less scaling.
+     */
+
+    --text-size:   clamp(0.9rem, calc(1vw + .5rem), 1.2rem);
+    --page-gutter: clamp(1.5rem, calc(3.5vw + .75rem), 4.0rem);
+
+    /* These values are used as a baseline for the spacing, margin,
+     * and padding of elements on the page. They can be adjusted
+     * to provide more or less space between things overall.
+     */
+
+    --line-height:     1.0; /* default text line-height */
+    --padding:      1.25em; /* default padding for things that have padding */
+    --border-size:    .2em; /* default border size for things that have a border (or shadow) */
+    --outline-size:   .2em; /* default outline size for things that have an outline */
+    --margin:       1.25em; /* default margin for things that have margin */
+    --gap:             1em; /* default gap for things that have a gap */
+    --radius :       .33em; /* default border radius for things that have a border radius */
+}
+
+/* Reset some CSS defaults */
+@layer reset {
+
+    * {
+        margin: 0;
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    html {
+        font-size: var(--base-size);
+        -moz-text-size-adjust: none;
+        -webkit-text-size-adjust: none;
+        text-size-adjust: none;
+        font-variant-numeric: tabular-nums;
+        background-color: var(--lite-tone);
+    }
+
+    ::-webkit-scrollbar {
+        width:  .5rem;
+        height: .5rem;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: var(--lite-tone);
+        border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--dark-tone);
+    }
+
+    ::backdrop {
+        height: 100%;
+        height: 100lvh; /* Covers the entire viewport on mobile devices */
+        background-color: var(--darker-tone);
+    }
+
+    body {
+        font-size: clamp(0.9rem, calc(1vw + .5rem), 1.2rem);
+        font-family: var(--default-font);
+        line-height: var(--line-height);
+        font-optical-sizing: auto;
+        -webkit-font-smoothing: antialiased;
+        background-color: var(--background);
+        color: var(--text);
+        overflow-x: clip;
+        width: 100%;
+        max-width: 1600px;
+        min-width: 344px;
+        min-height: 100%;
+        min-height: 100lvh;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 0 0 10px var(--lite-tone);
+    }
+
+    pre > code {
+        /* Compatible with highlight.js */
+        font-family: var(--monospace-font);
+        line-height: calc(1.5 * var(--line-height));
+        font-size: 0.8rem;
+    }
+
+    img, picture, video, canvas, svg {
+        display: block;
+    }
+
+    input, button, textarea, select {
+        font-family: var(--default-font);
+    }
+
+    button, input[type="submit"], input[type="reset"], input[type="button"] {
+        user-select: none;
+        width: fit-content;
+    }
+
+    p, h1, h2, h3, h4, h5, h6 {
+        overflow-wrap: break-word;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        display: flex; /* Flexbox for children */
+        inline-size: fit-content;
+        margin-top: calc(1em * var(--line-height));
+        margin-bottom: calc(1em * var(--line-height));
+        align-items: center; /* Vertical alignment for children */
+        gap: calc(var(--gap) / 2);
+
+        &.spread {
+            justify-content: space-between;
+            inline-size: auto;
+        }
+    }
+
+    h1 {
+        font-size: 1.75em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.3em;
+    }
+
+    h4 {
+        font-size: 1.2em;
+    }
+
+    h5 {
+        font-size: 1.1em;
+    }
+
+    h6 {
+        font-size: 1em;
+    }
+
+    label {
+        font-size: .85em;
+        font-weight: 500;
+        opacity: 70%;
+    }
+
+    a {
+        color: var(--link);
+        font-weight: 500;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    [on-click], [onclick], [href], button {
+        cursor: pointer;
+    }
+
+    summary {
+        width: fit-content;
+    }
+
+    textarea {
+        cursor: auto;
+    }
+
+    panel, section, form {
+        width: -webkit-fill-available;
+    }
+
+    form {
+        display: contents;
+    }
+
+    #root, #__next {
+        isolation: isolate;
+    }
+
+}
+
+
+/* Styles for the main HUD elements define the
+ * essential content areas on the page.
+ */
+@layer layout {
+
+    header {
+        gap: var(--gap);
+        display: flex;
+        padding-block: var(--padding);
+        padding-inline: var(--page-gutter);
+        align-items: center;
+        border-bottom: var(--border-size) solid var(--dark-tone);
+        z-index: 2;
+        position: relative;
+        min-height: var(--page-gutter);
+        background-color: var(--header);
+
+        > :first-child {
+            margin-right: auto;
+        }
+
+        &.no-border {
+            border-bottom: none;
+        }
+
+        &.thick-border {
+            border-bottom: .25em solid var(--dark-tone);
+        }
+
+        &.wide-border {
+            border-bottom: 1.25em solid var(--dark-tone);
+        }
+    }
+
+
+    main {
+        display: block;
+        position: relative;
+        margin: var(--page-gutter);
+    }
+
+
+    aside {
+        float: right;
+        background-color: lightgoldenrodyellow;
+        padding: var(--padding);
+        margin-right: calc(var(--page-gutter) * -1);
+        margin-top:   calc(var(--page-gutter) * -1);
+        width: 15em;
+        max-width: 40vw;
+        border-left: var(--border-size) solid var(--lite-tone);
+        border-bottom: var(--border-size) solid var(--medium-tone);
+        margin-left: calc(var(--margin) * 2);
+        border-bottom-left-radius: var(--radius);
+        margin-bottom: var(--margin);
+        position: relative;
+        z-index: 1;
+    }
+
+
+    dialog {
+        width: 75vw;
+        max-width: 55rem;
+        min-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: auto;
+        margin-top: 4rem;
+        border: var(--border-size) outset var(--lite-tone);
+        border-radius: calc(var(--radius) * 1.5);
+        box-shadow: var(--border-size) var(--border-size) var(--border-size) 0 var(--medium-tone);
+        padding: calc(var(--padding) * 1.5);
+        max-height: calc(100dvh - 8rem);
+
+        @media (max-width: 480px) {
+
+            width: 100vw;
+            border-radius: 0;
+            margin: 0;
+            max-height: 100dvh;
+
+        }
+    }
+
+
+
+
+    menu {
+
+    }
+
+
+    nav {
+
+    }
+
+
+    tray {
+        max-width: 20rem;
+        right: 0;
+        position: fixed;
+        margin-right: var(--margin);
+        bottom: var(--page-gutter);
+        display: grid;
+        gap: calc(var(--gap) / 2);
+
+        & > * {
+            background-color: lightgoldenrodyellow;
+            padding: 1rem;
+            display: block;
+            border: var(--border-size) outset var(--lite-tone);
+            box-shadow: var(--border-size) var(--border-size) var(--border-size) var(--medium-tone);
+            border-radius: var(--border-size);
+        }
+    }
+
+
+    popup {
+
+    }
+
+
+    footer:not(:empty) {
+        gap: var(--gap);
+        display: flex;
+        padding-block: calc(var(--margin) * 2);
+        padding-inline: var(--page-gutter);
+        top: 100%;
+        position: sticky;
+
+        &.spread {
+            justify-content: space-between;
+        }
+    }
+
+}
+
+
+/* Layout elements for the page provide the
+   foundation of the UI rendered to the HUD. */
+@layer containers {
+
+    p {
+        line-height: calc(1.5 * var(--line-height));
+        text-align: justify;
+    }
+
+
+    div {
+        /* plain jane */
+    }
+
+
+    span {
+        /* plain jane */
+    }
+
+
+    flex {
+        display: flex;
+        gap: calc(var(--gap) / 2);
+        align-items: center;
+
+        & > * {
+            word-break: auto-phrase;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        &.grow {
+            flex-grow: 2;
+        }
+
+        &.grow-more {
+            flex-grow: 3;
+        }
+
+        &.shrink {
+            flex-shrink: 2;
+        }
+
+        &.shrink-more {
+            flex-shrink: 3;
+        }
+
+        &.wrap {
+            flex-wrap: wrap;
+        }
+
+        &.inline {
+            display: inline-flex;
+        }
+
+        &.spread {
+            justify-content: space-between;
+        }
+
+        &.left {
+            justify-content: flex-start;
+        }
+
+        &.center {
+            justify-content: center;
+        }
+
+        &.right {
+            justify-content: flex-end;
+        }
+
+        &.top {
+            align-items: flex-start;
+        }
+
+        &.bottom {
+            align-items: flex-end;
+        }
+
+        &.fill {
+            align-items: stretch;
+        }
+
+        &.no-gap {
+            gap: 0;
+        }
+
+        &.small-gap {
+            gap: calc(var(--gap) / 2);
+        }
+
+        &.big-gap {
+            gap: calc(var(--gap));
+        }
+
+        & > hr {
+            width: 0;
+            background-color: var(--medium-tone);
+            border-color: var(--medium-tone);
+            border-style: solid;
+            display: block;
+            padding: .25px;
+            padding-block: var(--padding);
+            margin-inline: calc(var(--padding) / 4);
+        }
+
+    }
+
+
+    panel {
+        display: grid;
+        position: relative;
+        gap: var(--gap);
+        grid-auto-rows: min-content;
+        grid-template-columns: 100%;
+        scroll-margin-top: var(--margin);
+
+        h1:first-child {
+            margin-top: 0;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3:first-child {
+            margin-top: 0;
+        }
+
+        > :first-child {
+            margin-top: 0;
+        }
+
+        &.no-gap {
+            gap: 0;
+        }
+
+        &.small-gap {
+            gap: calc(var(--gap) / 2);
+        }
+
+        &.big-gap {
+            gap: calc(var(--gap) * 2);
+        }
+
+        &.center {
+            justify-items: center;
+        }
+    }
+
+
+    section {
+
+        margin-block: calc(var(--page-gutter) * 1.5);
+
+        &.no-margin {
+            margin-block: 0;
+        }
+
+        &.small-margin {
+            margin-block: calc(var(--page-gutter));
+        }
+
+        &.big-margin {
+            margin-block: calc(var(--page-gutter) * 2.5);
+        }
+
+    }
+
+
+    grid {
+        display: grid;
+        gap: var(--gap) calc(var(--gap) * 3);
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+
+        &.inline {
+            display: inline-grid;
+        }
+
+        &.wide {
+            grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+        }
+
+        &.narrow {
+            grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+        }
+
+        &.two-column {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &.three-column {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        &.four-column {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        &.small-gap {
+            gap: calc(var(--gap) / 2);
+        }
+
+        &.big-gap {
+            gap: calc(var(--gap) * 2);
+        }
+
+        &.no-gap {
+            gap: 0;
+        }
+
+    }
+
+
+    table {
+        min-width: max-content;
+        border-collapse: collapse;
+
+        .collapsable {
+            min-width: min-content;
+        }
+
+        & tr {
+            border: 0;
+        }
+
+        & td, & th {
+            text-align: left;
+            padding: var(--padding);
+            padding-top: calc(var(--padding) / 2);
+            padding-bottom: calc(var(--padding) / 2);
+            border: 2px solid var(--inverted);
+        }
+
+        & tr:nth-child(even), & th {
+            background-color: var(--lite-shade);
+        }
+    }
+
+}
+
+
+/* Layouts contain other elements that allow
+   for data to be displayed, and interacted with. */
+@layer elements {
+
+    b, select[multiple] > option {
+        display: inline-flex;
+        background-color: var(--lite-tone);
+        color: var(--text);
+        padding-inline: calc(var(--padding) / 3);
+        font-size: 80%;
+        padding-block: 0;
+        border-radius: calc(var(--radius) * 2);
+        align-items: center;
+        justify-content: center;
+        word-break: keep-all;
+        min-width: 1em;
+        gap: calc(var(--gap) / 3);
+        font-weight: 500;
+    }
+
+    input, textarea, button, select {
+        font-family: "Rubik", sans-serif;
+        font-size: inherit;
+        font-weight: 500;
+        border-style: inset;
+        border-width: var(--border-size);
+        border-color: var(--lite-tone);
+        border-radius: var(--radius);
+        padding: calc(var(--padding) / 2);
+        padding-inline: calc(var(--padding) * .75);
+        color: var(--text);
+    }
+
+    select[multiple] {
+        border: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    button, input[type="submit"], input[type="reset"], input[type="button"] {
+        background-color: var(--button);
+        border-style: outset;
+        padding-inline: calc(var(--padding) * .75);
+
+        &:hover {
+            text-decoration: none;
+            outline: var(--outline-size) solid var(--accent);
+            cursor: pointer;
+        }
+
+        &:active {
+            border-style: inset;
+            outline: none;
+        }
+    }
+
+
+    input:not([type="submit"]) {
+        width: clamp(120px, 100%, 26em);
+
+        &[type="checkbox"], &[type="radio"], [type="color"] {
+            width: inherit;
+            cursor: pointer;
+        }
+
+        &[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+            margin-left: 0.5rem;
+        }
+
+        &[type="color"] {
+            height: 3rem;
+        }
+
+    }
+
+    ul {
+        display: grid;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        gap: calc(var(--gap) / 2);
+    }
+
+}
+
+
+/* Properties define some additional visual
+   styles that can be applied to elements. */
+@layer properties {
+
+    /* Add/remove a border to elements */
+    .bordered {
+        border: var(--border-size) solid var(--lite-tone);
+        border-radius: var(--radius);
+    }
+
+    .left-border {
+        border-left: var(--border-size) solid var(--lite-tone);
+        border-radius: 0;
+        padding-left: var(--padding);
+    }
+
+    .right-border {
+        border-right: var(--border-size) solid var(--lite-tone);
+        border-radius: 0;
+        padding-right: var(--padding);
+    }
+
+    .top-border {
+        border-top: var(--border-size) solid var(--lite-tone);
+        border-radius: 0;
+        padding-top: var(--padding);
+    }
+
+    .bottom-border {
+        border-bottom: var(--border-size) solid var(--lite-tone);
+        border-radius: 0;
+        padding-bottom: var(--padding);
+    }
+
+    .no-border {
+        border: none;
+    }
+
+    /* Control visibility of elements easily */
+    .show {
+        display: initial;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .visible {
+        visibility: visible;
+    }
+
+    .invisible {
+        visibility: hidden;
+    }
+
+    /* Adjust the look of an element */
+    .floating {
+        box-shadow : 0 0 var(--border-size) var(--medium-tone);
+    }
+
+    .pointer, .interactive {
+        cursor: pointer;
+    }
+
+    .info, .informational {
+        background-color: var(--info-shade);
+    }
+
+    .gray, .grey {
+        background-color: var(--lite-shade);
+    }
+
+    .white {
+        background-color: var(--background);
+    }
+
+    .transparent {
+        background-color: transparent;
+    }
+
+    .important {
+        background-color: var(--accent);
+        color: var(--inverted);
+    }
+
+    .warning {
+        background-color: var(--warning);
+    }
+
+    .error {
+        background-color: var(--error);
+        color: var(--inverted);
+    }
+
+    .danger {
+        background-color: var(--danger);
+        color: var(--inverted);
+    }
+
+    .on {
+        outline: var(--outline-size) solid var(--accent)
+    }
+
+    .off {
+        outline: var(--outline-size) solid var(--lite-tone)
+    }
+
+    .no-gap {
+        gap: 0;
+    }
+
+    /* Adjust the positioning of an element */
+    .centered {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .constrained {
+        max-width: min(55rem, 80%);
+    }
+
+    .constrained-less {
+        max-width: 75rem;
+    }
+
+    .constrained-more {
+        max-width: min(35rem, 70%);
+    }
+
+    /* Adjust the text inside the element */
+    .text-left {
+        text-align: left;
+    }
+
+    .text-center, .text-centered {
+        text-align: center;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .text-justify {
+        text-align: justify;
+    }
+
+    .text-white {
+        color: var(--inverted);
+    }
+
+    .text-dark {
+        color: var(--text);
+    }
+
+    .pretty-text {
+        text-wrap: pretty;
+    }
+
+    .normal-text {
+        font-size: 1rem;
+    }
+
+    .large-text {
+        font-size: clamp(1.1rem, calc(1vw + .75rem), 1.5rem);
+    }
+
+    .xlarge-text {
+        font-size: clamp(1.5rem, calc(6vw), 3rem);
+    }
+
+    .xxlarge-text {
+        font-size: clamp(3rem, calc(6vw + 1rem), 5rem);
+    }
+
+    .inverted-text {
+        color: var(--inverted);
+    }
+
+    /* Quickly adjust padding and margins */
+    .cozy {
+        padding: calc(var(--padding) / 3) calc(var(--padding) / 2);
+    }
+
+    .cozy-h {
+        padding-inline: calc(var(--padding) / 2);
+    }
+
+    .cozy-v {
+        padding-block: calc(var(--padding) / 3);
+    }
+
+    .comfy {
+        margin: 1em;
+    }
+
+    .comfy-h {
+        margin-inline: 1em;
+    }
+
+    .comfy-v {
+        margin-block: 1em;
+    }
+
+    .padded {
+        padding: var(--padding);
+    }
+
+    .padded-more {
+        padding: calc(var(--padding) * 1.5);
+    }
+
+    .padded-less {
+        padding: calc(var(--padding) / 2);
+    }
+
+    .block-margin {
+        margin-block: var(--margin);
+    }
+
+    .more-block-margin {
+        margin-block: calc(var(--margin) * 2);
+    }
+
+    .way-more-block-margin {
+        margin-block: calc(var(--margin) * 3);
+    }
+
+    .less-block-margin {
+        margin-block: calc(var(--margin) / 2);
+    }
+
+    .no-block-margin {
+        margin-block: 0;
+    }
+
+    .inline-margin {
+        margin-inline: var(--margin);
+    }
+
+    .more-inline-margin {
+        margin-inline: calc(var(--margin) * 2);
+    }
+
+    .way-more-inline-margin {
+        margin-inline: calc(var(--margin) * 3);
+    }
+
+    .less-inline-margin {
+        margin-inline: calc(var(--margin) / 2);
+    }
+
+    .no-inline-margin {
+        margin-inline: 0;
+    }
+
+    .top-margin {
+        margin-top: var(--margin);
+    }
+
+    .more-top-margin {
+        margin-top: calc(var(--margin) * 2);
+    }
+
+    .way-more-top-margin {
+        margin-top: calc(var(--margin) * 3);
+    }
+
+    .less-top-margin {
+        margin-top: calc(var(--margin) / 2);
+    }
+
+    .no-top-margin {
+        margin-top: 0;
+    }
+
+    .bottom-margin {
+        margin-bottom: var(--margin);
+    }
+
+    .more-bottom-margin {
+        margin-bottom: calc(var(--margin) * 2);
+    }
+
+    .way-more-bottom-margin {
+        margin-bottom: calc(var(--margin) * 3);
+    }
+
+    .less-bottom-margin {
+        margin-bottom: calc(var(--margin) / 2);
+    }
+
+    .no-bottom-margin {
+        margin-bottom: 0;
+    }
+
+    .left-margin {
+        margin-left: var(--margin);
+    }
+
+    .more-left-margin {
+        margin-left: calc(var(--margin) * 2);
+    }
+
+    .way-more-left-margin {
+        margin-left: calc(var(--margin) * 3);
+    }
+
+    .less-left-margin {
+        margin-left: calc(var(--margin) / 2);
+    }
+
+    .no-left-margin {
+        margin-left: 0;
+    }
+
+    .right-margin {
+        margin-right: var(--margin);
+    }
+
+    .more-right-margin {
+        margin-right: calc(var(--margin) * 2);
+    }
+
+    .way-more-right-margin {
+        margin-right: calc(var(--margin) * 3);
+    }
+
+    .less-right-margin {
+        margin-right: calc(var(--margin) / 2);
+    }
+
+    .no-right-margin {
+        margin-right: 0;
+    }
+
+    .inline-block {
+        display: inline-block;
+    }
+
+    .block {
+        display: block;
+    }
+
+    .inline {
+        display: inline;
+    }
+
+    .inline-overflow {
+        overflow-x: auto;
+    }
+
+    .block-overflow {
+        overflow-y: auto;
+    }
+
+    .no-select {
+        user-select: none;
+    }
+
+}
+
+
+/* Slots are used to 'insert' content into different
+   elements on the page, providing a sleek way to
+   combine different elements together. */
+@layer slots {
+
+    main {
+
+        > .image-slot {
+            margin-top:   calc(var(--page-gutter) * -1);
+            margin-left:  calc(var(--page-gutter) * -1);
+            margin-right: calc(var(--page-gutter) * -1);
+            width: calc(100% + var(--page-gutter) *  2);
+        }
+
+        > .slot {
+            margin-left: calc(var(--page-gutter) * -1);
+            margin-right: calc(var(--page-gutter) * -1);
+            width: calc(100% + var(--page-gutter) * 2);
+        }
+
+        > .top-slot {
+            margin-top: calc(var(--page-gutter) * -1);
+            margin-left: calc(var(--page-gutter) * -1);
+            margin-right: calc(var(--page-gutter) * -1);
+            width: calc(100% + var(--page-gutter) * 2);
+        }
+
+    }
+
+    .padded {
+
+        .image-slot {
+            margin-top: -1rem;
+            margin-left: -1rem;
+            margin-right: -1rem;
+            width: calc(100% + 2em);
+            border-radius: .125rem;
+        }
+
+        .top-slot {
+            margin-top: -1rem;
+            margin-left: -1rem;
+            margin-right: -1rem;
+            width: calc(100% + 2em);
+            background-color: #eaeaea;
+            padding: 1rem;
+        }
+
+        .bottom-slot {
+            margin-bottom: -1rem;
+            margin-left: -1rem;
+            margin-right: -1rem;
+            width: calc(100% + 2em);
+            background-color: #eaeaea;
+            padding: 1rem;
+            padding-block: 0.5rem;
+
+            margin-top: .33rem;
+            border-bottom: none;
+            border-left: none;
+            border-right: none;
+            border-radius: 0;
+        }
+
+    }
+
+    dialog {
+
+        .bottom-slot {
+            margin-top: 1.5em;
+            margin-left: -1.5em;
+            margin-right: -1.5em;
+            margin-bottom: -1.5em;
+            width: calc(100% + 3em);
+        }
+
+    }
+
+
+
+}
+
+
+/* Edge styles are used to adjust the
+   fine-grained layout of elements on the page,
+   taking into account the context of the
+   surrounding elements. */
+
+@layer edge {
+
+    /* Loading indicators for when the loading attribute is 'true' */
+
+    :not(i)[loading="true"] {
+        position: relative;
+        overflow: hidden; /* Needed for the gradient overlay */
+        pointer-events: none;
+
+    }
+
+    :not(i)[loading="true"]::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.6),
+                transparent
+        ); /* Gradient with transparent areas */
+        animation: gradientOverlay 2s infinite both;
+        animation-delay: 250ms;
+    }
+
+    @keyframes gradientOverlay {
+        0% {
+            opacity: 80%;
+            left: -100%;
+        }
+        100% {
+            opacity: 80%;
+            left: 100%;
+        }
+    }
+
+    i[loading=true] {
+        animation: pulse 2s infinite both;
+        pointer-events: none;
+        animation-delay: 250ms;
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* Form Labels have adjusted margins so they be be more associated with their counterpart element */
+    form label {
+        margin-top: .25em;
+        margin-bottom: -.5em;
+    }
+
+
+}
