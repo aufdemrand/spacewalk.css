@@ -1,10 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 /* Spacewalk CSS
-   A simple, modern CSS framework for building HUDs */
-
-
-
+ * A simple, modern CSS framework for building web-HUDs
+ */
 
 @layer reset, layout, containers, elements, properties, slots, edge;
 
@@ -346,8 +344,6 @@
 
         }
     }
-
-
 
 
     menu {
@@ -805,6 +801,10 @@
     }
 
     .white {
+        background-color: white;
+    }
+
+    .light {
         background-color: var(--background);
     }
 
@@ -880,6 +880,10 @@
 
     .text-white {
         color: var(--inverted);
+    }
+
+    .text-spaced {
+        line-height: 1.5;
     }
 
     .text-dark {
@@ -1091,6 +1095,16 @@
         user-select: none;
     }
 
+    .narrow-width {
+        width: 25em;
+        max-width: 100%;
+    }
+
+    .very-narrow-width {
+        width: 15em;
+        max-width: 100%;
+    }
+
 }
 
 
@@ -1172,8 +1186,6 @@
 
     }
 
-
-
 }
 
 
@@ -1240,9 +1252,14 @@
     }
 
     /* Form Labels have adjusted margins so they be be more associated with their counterpart element */
-    form label {
+    panel form label {
         margin-top: .25em;
         margin-bottom: -.5em;
+    }
+
+    panel form flex > label {
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
 
