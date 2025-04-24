@@ -1,6 +1,6 @@
 # spacewalk.css
 
-A simple, modern CSS framework for building HUDs.
+A simple, modern CSS library for building web-HUDs.
 
 ## Use spacewalk.css
 
