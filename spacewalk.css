@@ -384,6 +384,7 @@
     footer:not(:empty) {
         gap: var(--gap);
         display: flex;
+        width: 100vw;
         padding-block: calc(var(--margin) * 2);
         padding-inline: var(--page-gutter);
         top: 100%;
