@@ -404,7 +404,19 @@
 
     p {
         line-height: calc(1.5 * var(--line-height));
-        text-align: justify;
+        text-wrap-style: pretty;
+
+        &.balanced, &.balance {
+            text-wrap-style: balance;
+        }
+
+        &.stable {
+            text-wrap-style: stable;
+        }
+
+        &.normal {
+            text-wra-style: auto;
+        }
     }
 
 
