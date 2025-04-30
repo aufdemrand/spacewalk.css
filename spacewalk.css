@@ -862,6 +862,18 @@
         margin-right: auto;
     }
 
+    .cleared {
+        clear: both;
+    }
+
+    .clear-right {
+        clear: right;
+    }
+
+    .clear-left {
+        clear: left;
+    }
+
     .constrained {
         max-width: min(55rem, 80%);
     }
