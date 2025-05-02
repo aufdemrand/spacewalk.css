@@ -730,12 +730,12 @@
 
     }
 
-    ul {
-        display: grid;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        gap: calc(var(--gap) / 2);
+    ol, ul {
+        line-height: 1.5;
+        
+        li {
+            margin-block: 0.5em;
+        }
     }
 
 }
