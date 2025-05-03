@@ -306,7 +306,7 @@
     aside {
         float: right;
         background-color: lightgoldenrodyellow;
-        padding: var(--padding);
+        padding: calc(var(--padding) * 1.5);
         margin-right: calc(var(--page-gutter) * -1);
         margin-top:   calc(var(--page-gutter) * -1);
         width: 15em;
