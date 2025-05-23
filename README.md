@@ -7,7 +7,7 @@ A simple, modern CSS library for building web-HUDs.
 View the latest release at: [https://www.jsdelivr.com/package/gh/aufdemrand/spacewalk.css]
 
 ```html
-<link rel='stylesheet' src='https://cdn.jsdelivr.net/gh/aufdemrand/spacewalk.css@0.8.1/spacewalk.css'>
+<link rel='stylesheet' src='https://cdn.jsdelivr.net/gh/aufdemrand/spacewalk.css@latest/spacewalk.css'>
 ```
 
 ## Example
