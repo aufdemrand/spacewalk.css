@@ -74,6 +74,9 @@
                            the value of '1rem' (root-em), and also effects the value
                            of 1em. Change this up for an overall 'zoom' effect. */
 
+    --max-body-size: 1680px; /* The body will be constrained to this width on large viewports */
+    --min-body-size: 344px;  /* The body will be required to be at least this wide */
+
     /* These values stretch based on the viewport to provide
      * a responsive design that scales with the size of the screen.
      * Adjust these values to provide more or less scaling.
@@ -83,20 +86,21 @@
     --page-gutter: clamp(1.5rem, calc(3.5vw + .75rem), 4.0rem);
 
     /* These values are used as a baseline for the spacing, margin,
-     * and padding of elements on the page. They can be adjusted
+     * and padding of containers on the page. They can be adjusted
      * to provide more or less space between things overall.
      */
 
-    --line-height:     1.0; /* default text line-height */
-    --padding:      1.25em; /* default padding for things that have padding */
-    --border-size:    .2em; /* default border size for things that have a border (or shadow) */
-    --outline-size:   .2em; /* default outline size for things that have an outline */
-    --margin:       1.25em; /* default margin for things that have margin */
-    --gap:             1em; /* default gap for things that have a gap */
-    --radius :       .33em; /* default border radius for things that have a border radius */
+    --line-height:     1.0;  /* default text line-height */
+    --padding:      1.25em;  /* default padding for things that have padding */
+    --border-size:    .2em;  /* default border size for things that have a border (or shadow) */
+    --outline-size:   .2em;  /* default outline size for things that have an outline */
+    --margin:       1.25em;  /* default margin for things that have margin */
+    --gap:             1em;  /* default gap for things that have a gap */
+    --radius :       .33em;  /* default border radius for things that have a border radius */
 }
 
-/* Reset some CSS defaults */
+/* Reset some CSS defaults, and set some new ones */
+
 @layer reset {
 
     * {
@@ -137,7 +141,7 @@
     }
 
     body {
-        font-size: clamp(0.9rem, calc(1vw + .5rem), 1.2rem);
+        font-size: var(--text-size);
         font-family: var(--default-font);
         line-height: var(--line-height);
         font-optical-sizing: auto;
@@ -146,10 +150,11 @@
         color: var(--text);
         overflow-x: clip;
         width: 100%;
-        max-width: 1600px;
-        min-width: 344px;
+        width: 100dvw;
+        max-width: var(--max-body-size);
+        min-width: var(--min-body-size);
         min-height: 100%;
-        min-height: 100lvh;
+        min-height: 100dvh;
         margin-left: auto;
         margin-right: auto;
         box-shadow: 0 0 10px var(--lite-tone);
@@ -177,6 +182,7 @@
 
     p, h1, h2, h3, h4, h5, h6 {
         overflow-wrap: break-word;
+        position: relative;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -384,7 +390,7 @@
     footer:not(:empty) {
         gap: var(--gap);
         display: flex;
-        width: 100vw;
+        width: 100%;
         padding-block: calc(var(--margin) * 2);
         padding-inline: var(--page-gutter);
         top: 100%;
@@ -415,7 +421,7 @@
         }
 
         &.normal {
-            text-wra-style: auto;
+            text-wrap-style: auto;
         }
     }
 
@@ -520,11 +526,10 @@
 
 
     panel {
-        display: grid;
+        display: flex;
+        flex-direction: column;
         position: relative;
         gap: var(--gap);
-        grid-auto-rows: min-content;
-        grid-template-columns: 100%;
         scroll-margin-top: var(--margin);
 
         h1:first-child {
@@ -815,6 +820,10 @@
 
     .white {
         background-color: white;
+    }
+
+    .black {
+        background-color: black;
     }
 
     .light {
@@ -1129,6 +1138,17 @@
         width: 15em;
         max-width: 100%;
     }
+
+    .full-width {
+        overflow-x: scroll;
+        scroll-snap-type: inline;
+
+        .scroll-stop {
+            scroll-snap-stop: always;
+            scroll-snap-align: center;
+        }
+    }
+
 
 }
 
